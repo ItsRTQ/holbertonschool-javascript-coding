@@ -7,8 +7,7 @@ const readFile = async (filePath) => {
     const data = await fs.readFile(resolvedPath, 'utf8');
     console.log(data);
   } catch (err) {
-    console.error(`{ Error : ${err.message} at 
-    ${err.stack} }`);
+    console.log(err);
   }
 };
 
