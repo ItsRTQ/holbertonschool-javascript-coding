@@ -8,7 +8,7 @@ const readFile = async (filePath) => {
     console.log(data);
   } catch (err) {
     console.error(`{ Error : ${err.message} at 
-    ${err.stack}}`);
+    ${err.stack} }`);
   }
 };
 
