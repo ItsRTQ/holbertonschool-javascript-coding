@@ -1,14 +1,10 @@
 #!/usr/bin/node
-const fs = require('fs').promises;
-const path = require('path');
-const readFile = async (filePath) => {
-  try {
-    const resolvedPath = path.resolve(filePath);
-    const data = await fs.readFile(resolvedPath, 'utf8');
-    console.log(data);
-  } catch (err) {
+const filePath = process.argv[2];
+const fs = require('fs');
+fs.readFile(filePath, 'utf8', function (err, text) {
+  if (err) {
     console.log(err);
+  } else {
+    console.log(text);
   }
-};
-
-readFile(process.argv[2]);
+});
