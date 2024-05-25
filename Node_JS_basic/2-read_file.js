@@ -6,7 +6,7 @@ function countStudents(path) {
     const lines = data.trim().split('\n').filter(line => line);
     const headers = lines[0].split(',');
     if (headers.length < 4 || headers[0] !== 'firstname' || headers[1] !== 'lastname' || headers[2] !== 'age' || headers[3] !== 'field') {
-      throw new Error('Invalid CSV format');
+      throw new Error('Cannot load the database');
     }
     const studentCounts = {};
     for (let i = 1; i < lines.length; i++) {
