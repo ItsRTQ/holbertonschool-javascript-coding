@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+
 async function countStudents(filePath) {
   try {
     const fileContent = await fs.readFile(filePath, 'utf8');
