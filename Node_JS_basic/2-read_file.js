@@ -3,31 +3,31 @@ const fs = require('fs');
 function countStudents(path) {
   try {
     const data = fs.readFileSync(path, 'utf8');
-    const lines = data.split('\n').filter(line => line.trim() !== '');
-    const countByField = {};
-    lines.forEach(line => {
-      const fields = line.split(',');
-      if (fields.length !== 4) return;
-      const [firstName, lastName, age, field] = fields;
-      if (!countByField[field]) {
-        countByField[field] = {
-          count: 1,
-          students: [firstName.trim()]
-        };
-      } else {
-        countByField[field].count++;
-        countByField[field].students.push(firstName.trim());
-      }
-    });
-    for (const field in countByField) {
-      console.log(`Number of students in ${field}: ${countByField[field].count}. List: ${countByField[field].students.join(', ')}`);
+    const lines = data.trim().split('\n').filter(line => line);
+    const headers = lines[0].split(',');
+    if (headers.length < 4 || headers[0] !== 'firstname' || headers[1] !== 'lastname' || headers[2] !== 'age' || headers[3] !== 'field') {
+      throw new Error('Invalid CSV format');
     }
-    const totalStudents = Object.values(countByField).reduce((total, field) => total + field.count, 0);
+    const studentCounts = {};
+    for (let i = 1; i < lines.length; i++) {
+      const [firstname, lastname, age, field] = lines[i].split(',');
+      if (firstname && lastname && age && field) {
+        if (!studentCounts[field]) {
+          studentCounts[field] = { count: 0, names: [] };
+        }
+        studentCounts[field].count += 1;
+        studentCounts[field].names.push(firstname);
+      }
+    }
+    const totalStudents = Object.values(studentCounts).reduce((acc, val) => acc + val.count, 0);
     console.log(`Number of students: ${totalStudents}`);
+    for (const [field, info] of Object.entries(studentCounts)) {
+      console.log(`Number of students in ${field}: ${info.count}. List: ${info.names.join(', ')}`);
+    }
   } catch (error) {
     console.error('Cannot load the database');
+    throw error;
   }
 }
-const databasePath = 'database.csv';
-countStudents(databasePath);
+
 module.exports = countStudents;
