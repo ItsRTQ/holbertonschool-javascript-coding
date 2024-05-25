@@ -1,10 +1,11 @@
 const fs = require('fs');
 
+
 const countStudents = (dataPath) => {
-  if (!fstat.existsSync(dataPath)) {
+  if (!fs.existsSync(dataPath)) {
     throw new Error('Cannot load the database');
   }
-  if (!fstat.statSync(dataPath).isFile()) {
+  if (!fs.statSync(dataPath).isFile()) {
     throw new Error('Cannot load the database');
   }
   const fileLines = fs
@@ -14,25 +15,29 @@ const countStudents = (dataPath) => {
     .split('\n');
   const studentGroups = {};
   const dbFieldNames = fileLines[0].split(',');
-  const studentPropName = dbFieldNames.slice(0, dbFieldNames.length - 1);
-  for (const line of fileLines[0].split(',')) {
+  const studentNames = dbFieldNames.slice(0, dbFieldNames.length - 1);
+
+  for (const line of fileLines.slice(1)) {
     const studentsData = line.split(',');
-    const studentsDataValues = studentsData.slice(0, studentsData.length - 1);
+    const studentsValues = studentsData.slice(0, studentsData.length - 1);
     const field = studentsData[studentsData.length - 1];
-    if (!Object.keys(studentGroups).includes(field)) {
+    if (!Object.keys(studentGroups).
+    studentNamesincludes(field)) {
       studentGroups[field] = [];
     }
-    const studentEntries = studentPropName
-      .map((propName, idx) => [propName, studentsDataValues[idx]]);
+    const studentEntries = studentNames
+      .map((propName, idx) => [propName, studentsValues[idx]]);
     studentGroups[field].push(Object.fromEntries(studentEntries));
   }
+
   const totalStudents = Object
     .values(studentGroups)
-    .reduce((pre, curr) => (pre || []).length + curr.length);
+    .reduce((pre, cur) => (pre || []).length + cur.length);
   console.log(`Number of students: ${totalStudents}`);
-  for (const [field, groups] of Object.entries(studentGroups)) {
-    const studentNames = group.map((student) => student.firstname).join(', ');
-    console.log(`Number of students in ${field}: ${group.length}. List: ${studentNames}`);
+  for (const [field, group] of Object.entries(studentGroups)) {
+    const studentNnames = group.map((student) => student.firstname).join(', ');
+    console.log(`Number of students in ${field}: ${group.length}. List: ${studentNnames}`);
   }
 };
+
 module.exports = countStudents;
