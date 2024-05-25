@@ -24,7 +24,7 @@ const countStudents = (dataPath) => {
             studentGroups[field].push(firstName);
           });
 
-          let report = `Number of students: ${lines.length - 1}\n`;
+          let report = `This is the list of our students\n\n`;
           for (const field in studentGroups) {
             report += `Number of students in ${field}: ${studentGroups[field].length}. List: ${studentGroups[field].join(', ')}\n`;
           }
@@ -44,7 +44,7 @@ const server = http.createServer((req, res) => {
     countStudents(DB_FILE)
       .then(report => {
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(`This is the list of our students\n\n${report}`);
+        res.end(report);
       })
       .catch(error => {
         res.writeHead(500, {'Content-Type': 'text/plain'});
