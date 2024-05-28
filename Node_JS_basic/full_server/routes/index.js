@@ -1,10 +1,10 @@
-import AppController from '../controllers/AppController'
-import StudentController from '../controllers/StudentsController'
+import AppController from '../controllers/AppController';
+import StudentsController from '../controllers/StudentsController';
 
 const mapRoutes = (app) => {
   app.get('/', AppController.getHomepage);
-  app.get('/student', StudentController.getAllStudents);
-  app.get('students/:major', StudentController.getStudentsByMajor);
+  app.get('/students', StudentsController.getAllStudents);
+  app.get('/students/:major', StudentsController.getAllStudentsByMajor);
 };
 
 export default mapRoutes;
